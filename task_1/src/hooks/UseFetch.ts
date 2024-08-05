@@ -3,27 +3,26 @@ import { User, UsersData } from '../types/types';
 
 const useFetch = (url: string | null) => {
   const [data, setData] = useState<UsersData | User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<unknown | null>(null);
 
   useEffect(() => {
-    if (!url) {
-      setLoading(false);
-      return;
-    }
+    if (!url) return;
 
     const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
-        console.log(result);
         setData(result);
       } catch (err) {
         console.log(err);
-        
+        setError(err);
       } finally {
         setLoading(false);
       }

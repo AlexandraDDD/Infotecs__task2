@@ -57,9 +57,10 @@ export const FilterBar: FC = () => {
   if (loading) return (
     <Spinner></Spinner>
   )
-  if (error) return (
-    <p>{error}</p>
+  if (error instanceof Error) return (
+    <h2>Fetch ERROR: {error.message}</h2>
   )
+  
 
   return (
     <>

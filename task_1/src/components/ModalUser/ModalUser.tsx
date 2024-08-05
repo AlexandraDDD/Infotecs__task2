@@ -1,4 +1,3 @@
-import { MDBModal } from 'mdb-react-ui-kit'
 import React, { FC, useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -33,9 +32,11 @@ export const ModalUser: FC<ModalUserProps> = ({ selectedUserId, show, handleClos
   if (loading) return (
     <Spinner></Spinner>
   )
-  if (error) return (
-    <p>{error}</p>
+  if (error instanceof Error) return (
+    <h2>Fetch ERROR: {error.message}</h2>
   )
+  
+  
   return (
     <>
       {user &&
