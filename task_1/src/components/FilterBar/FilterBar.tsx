@@ -13,40 +13,73 @@ export const FilterBar: FC = () => {
   const [searchKey, setSearchKey] = useState<string>('');
   const [url, setUrl] = useState<string | null>(null);
   const [debouncedSearchValue, setDebouncedSearchValue] = useState<string>('');
+  const [limit, setLimit] = useState<string>('5');
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      setDebouncedSearchValue(searchValue);
+      let formattedSearchValue
+      if (searchKey !== 'gender') {
+        formattedSearchValue = searchValue.charAt(0).toUpperCase() + searchValue.slice(1).toLowerCase();
+      } else{
+        formattedSearchValue = searchValue
+      }
+
+      setDebouncedSearchValue(formattedSearchValue);
     }, 500);
     return () => clearTimeout(timeoutId);
   }, [searchValue, 500]);
 
-  
+
   useEffect(() => {
+    console.log(limit);
+    
     if (searchKey && debouncedSearchValue) {
       setUrl(`https://dummyjson.com/users/filter?key=${searchKey}&value=${debouncedSearchValue}`);
-    } else if (!debouncedSearchValue) {
-      setUrl('https://dummyjson.com/users?limit=5&select=firstName,lastName,maidenName,gender,age,phone,address');
+    } else if ((!debouncedSearchValue || !searchKey) && limit !='all')  {
+      setUrl(`https://dummyjson.com/users?limit=${limit}&select=firstName,lastName,maidenName,gender,age,phone,address`);
     }
-  }, [searchKey, debouncedSearchValue]);
+    else if((!debouncedSearchValue || !searchKey) && limit === 'all'){
+      setUrl(`https://dummyjson.com/users?select=firstName,lastName,maidenName,gender,age,phone,address`);
+    }
+  }, [searchKey, debouncedSearchValue, limit]);
 
   const { data, loading, error } = useFetch(url);
- 
+
   useEffect(() => {
     if (data) {
-      setUsers(data.users);
+      if ('users' in data && Array.isArray(data.users)) {
+        setUsers(data.users);
+      } 
     }
   }, [data, setUsers]);
+  
+  
 
-  if(loading) return(
+  if (loading) return (
     <Spinner></Spinner>
   )
-  if(error) return(
+  if (error) return (
     <p>{error}</p>
   )
 
   return (
     <>
+    <h4>Для поиска по ключу необходимо вводить полное значение</h4>
+    <h6>Кол-во строк таблицы</h6>
+    {!searchKey &&
+     <Form.Select
+     value={limit}
+     onChange={(e) => setLimit(e.target.value)}
+     className='mb-2'
+   >
+     <option value="5">5</option>
+     <option value="10">10</option>
+     <option value="15">15</option>
+     <option value="20">20</option>
+     <option value="all">загрузить всё</option>
+   </Form.Select>
+    }
+   
       <Form.Select
         value={searchKey}
         onChange={(e) => setSearchKey(e.target.value)}
@@ -72,8 +105,8 @@ export const FilterBar: FC = () => {
       )}
       {searchKey === 'gender' && (
         <Form.Select
-          value={searchKey}
-          onChange={(e) => setSearchKey(e.target.value)}
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
         >
           <option value="">Выберите пол</option>
           <option value="male">Муж.</option>

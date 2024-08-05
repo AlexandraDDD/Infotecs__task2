@@ -12,6 +12,10 @@ export interface User {
         address: string;
         city: string;
     };
+    height: string,
+    weight: string,
+    email: string,
+
 }
 
 export interface UsersData {

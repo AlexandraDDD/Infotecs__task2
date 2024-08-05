@@ -11,16 +11,26 @@ import { FilterBar } from './components/FilterBar';
 import { User } from './types/types';
 import { useUserContext } from './context/UserContext';
 import useFetch from './hooks/UseFetch';
+import { ModalUser } from './components/ModalUser';
 
 
 
 function App() {
- 
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModal = (id: number, show: boolean ) => {
+    setSelectedUserId(id);
+    setShowModal(show)
+  };
+  const handleClose = () => setShowModal(false);
+
   return (
     <div className="App">
       <MDBContainer breakpoint="xl">
-        <FilterBar /* onSearch={handleSearch}  */ />
-        <Table />
+        <FilterBar />
+        <Table handleModal={handleModal} />
+        <ModalUser selectedUserId={selectedUserId} show={showModal} handleClose={handleClose} />
       </MDBContainer>
     </div>
   );

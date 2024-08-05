@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { UsersData } from '../types/types';
+import { User, UsersData } from '../types/types';
 
 const useFetch = (url: string | null) => {
-  const [data, setData] = useState<UsersData | null>(null);
+  const [data, setData] = useState<UsersData | User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
