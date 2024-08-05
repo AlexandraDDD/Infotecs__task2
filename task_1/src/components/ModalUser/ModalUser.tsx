@@ -5,23 +5,18 @@ import Modal from 'react-bootstrap/Modal';
 import useFetch from '../../hooks/UseFetch';
 import { User } from '../../types/types';
 import { Spinner } from 'react-bootstrap';
-
-interface ModalUserProps {
-  selectedUserId: number | null;
-  show: boolean;
-  handleClose: () => void;
-}
+import { ModalUserProps } from './types';
 
 export const ModalUser: FC<ModalUserProps> = ({ selectedUserId, show, handleClose }) => {
   const [url, setUrl] = useState<string | null>(null);
   const [user, setUser] = useState<User>()
+
   useEffect(() => {
     if (selectedUserId && show) {
       setUrl(`https://dummyjson.com/users/${selectedUserId}?select=firstName,lastName,maidenName,gender,age,phone,address,height,weight,email`);
     }
   }, [selectedUserId, show]);
   
-
   const { data, loading, error } = useFetch(url);
 
   useEffect(() => {

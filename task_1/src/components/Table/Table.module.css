@@ -1,4 +1,4 @@
-.TableTh{
+.TableTitle{
     cursor: pointer;
     user-select: none;
     display: flex;
@@ -9,11 +9,22 @@
     transition: all 0.2s;
 
 }
-.TableTh:hover{
+.TableTitle:hover{
         background-color: rgba(189, 205, 219, 0.464);   
 }
 .arrowIcons{
     margin-left: 8px;
     display: flex;
     align-items: center;
+}
+.TableTr{
+    transition: all 0.2s;
+}
+.TableTr:hover{
+    background-color: rgba(189, 205, 219, 0.464);   
+}
+.Resize{
+    height: 100%;
+    width: 5px;
+    cursor: col-resize;
 }

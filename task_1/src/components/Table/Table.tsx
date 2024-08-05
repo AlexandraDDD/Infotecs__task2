@@ -1,66 +1,26 @@
-import React, { FC, useRef, useState } from 'react';
-
-import { FaArrowUp, FaArrowDown, FaTimes } from 'react-icons/fa';
-import { User } from '../../types/types';
+import React, { FC, useRef } from 'react';
+import { FaArrowUp, FaArrowDown} from 'react-icons/fa';
 import { useUserContext } from '../../context/UserContext';
-import { useTable, useResizeColumns, useSortBy, HeaderGroup, SortByFn, Column as ReactTableColumn } from 'react-table';
-
+import { useTable, useResizeColumns, useSortBy, } from 'react-table';
 import styles from './Table.module.css';
+//типы
+import { Column, TableData, TableProps, sortTypes } from './types';
 
-interface TableProps {
-  handleModal: (Id: number, show: boolean) => void;
-}
-
-type Column<T extends object> = ReactTableColumn<T> & {
-  canResize?: boolean;
-};
-
-type TableData = {
-  id: number;
-  fullName: string;
-  age: number;
-  gender: string;
-  phone: string;
-  address: string;
-
-};
-
-
+//определение колонок
 export const columns: Column<TableData>[] = [
-  { Header: '№', accessor: 'id', disableSortBy: true, width: 51, minWidth: 50, /* canResize: false, disableResizing: true  */ },
-  { Header: 'ФИО', accessor: 'fullName', sortType: 'string', minWidth: 50, canResize: true },
-  { Header: 'ВОЗРАСТ', accessor: 'age', sortType: 'number', minWidth: 50, canResize: true },
-  { Header: 'ПОЛ', accessor: 'gender', minWidth: 50, canResize: true },
-  { Header: 'НОМЕР ТЕЛ.', accessor: 'phone', disableSortBy: true, minWidth: 50, canResize: true },
-  { Header: 'АДРЕС', accessor: 'address', sortType: 'string', minWidth: 50, canResize: true }
+  { Header: '№', accessor: 'id', disableSortBy: true, width: 51, minWidth: 50},
+  { Header: 'ФИО', accessor: 'fullName', sortType: 'string', minWidth: 50, },
+  { Header: 'ВОЗРАСТ', accessor: 'age', sortType: 'number', minWidth: 50, },
+  { Header: 'ПОЛ', accessor: 'gender', minWidth: 50, },
+  { Header: 'НОМЕР ТЕЛ.', accessor: 'phone', disableSortBy: true, minWidth: 50, },
+  { Header: 'АДРЕС', accessor: 'address', sortType: 'string', minWidth: 50 }
 ]
 
-// типы сортировки
 
-export const sortTypes: Record<string, SortByFn<TableData>> = {
-  string: (rowA, rowB, columnId, desc) => {
-    const [a, b] = [rowA.values[columnId], rowB.values[columnId]] as [
-      string,
-      string
-    ]
-
-    return a.localeCompare(b, 'en')
-  },
-  number: (rowA, rowB, columnId, desc) => {
-    const [a, b] = [rowA.values[columnId], rowB.values[columnId]] as [
-      number,
-      number
-    ]
-
-    return a - b
-  }
-}
-
-
-
-export const Table: FC<TableProps> = ({handleModal}) => {
+export const Table: FC<TableProps> = ({ handleModal }) => {
   const { users } = useUserContext();
 
+  //данные для таблицы
   const data = React.useMemo(
     () =>
       users.map((user) => ({
@@ -75,13 +35,13 @@ export const Table: FC<TableProps> = ({handleModal}) => {
   );
   const autoResetResize = useRef(false);
 
+  // экземпляр таблицы
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-
   } = useTable(
     {
       columns,
@@ -92,14 +52,13 @@ export const Table: FC<TableProps> = ({handleModal}) => {
     useSortBy,
     useResizeColumns
   );
+
   return (
     <table {...getTableProps()} className="table">
       <thead>
         {headerGroups.map((hG) => (
           <tr {...hG.getHeaderGroupProps()}>
             {hG.headers.map((column) => (
-
-
               <th
                 {...column.getHeaderProps(column.getSortByToggleProps())}
                 style={{
@@ -110,20 +69,16 @@ export const Table: FC<TableProps> = ({handleModal}) => {
                   overflow: 'hidden',
                 }}
               >
-                {column.canResize && (
                   <div
                     {...column.getResizerProps()}
+                    className={styles.Resize}
                     style={{
-
-                      height: '100%',
-                      width: '5px',
-                      cursor: 'col-resize',
                       userSelect: 'none',
                     }}
                   />
-                )}
                 <div
-                  className={styles.TableTh}
+                style={{  ...(column.disableSortBy && { pointerEvents: 'none' }),}}
+                  className={styles.TableTitle}
                 >
                   <h6>{column.render('Header')}</h6>
                   <div className={styles.arrowIcons}>
@@ -141,9 +96,13 @@ export const Table: FC<TableProps> = ({handleModal}) => {
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()} onClick={() => {
+            <tr 
+            {...row.getRowProps()} 
+            onClick={() => {
               handleModal(row.original.id, true)
-            }} style={{cursor: 'pointer'}}>
+            }} 
+            className={styles.TableTr}
+            style={{ cursor: 'pointer' }}>
               {row.cells.map((cell) => {
                 return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
               })}
