@@ -1,16 +1,20 @@
+@import '../../styles/variables' ;
+
 .item{
     &__wr{
         align-content: start;
         border-radius: 10px;
-        padding: 2% 10%;
-        background-color: rgba(200, 200, 189, 0.526);
+        padding: 18px 10%;
+        background-color: $primary-color;
+        margin-bottom: 20px;
 
     }
     &__head{
         display: flex;
-        justify-content: space-between;
+        justify-content: left;
         align-items: center;
     }
+   
 }
 p{
     text-align: left;
@@ -21,4 +25,35 @@ h3{
     padding: 0;
     margin: 0;
     margin-bottom: 10px;
+}
+h5{
+    margin: 0;
+}
+.form{
+    &__head{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    &__head-content{
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        height: 30px;
+        align-items: center;
+    }
+    margin-bottom: 15px;
+}
+textarea{
+    width: 100%;
+    resize: vertical;
+    box-sizing: border-box;
+}
+.remove{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

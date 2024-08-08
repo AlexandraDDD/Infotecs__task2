@@ -1,0 +1,32 @@
+@import './styles/variables';
+
+.App {
+  text-align: center;
+  color: rgb(59, 44, 44);
+}
+
+.container{
+  max-width: 1000px;
+  padding: 0 15%;
+}
+.btn{
+  padding: 10px 15px;
+  border: none;
+  background-color: $primary-color;
+border-radius: 10px;
+margin-bottom: 15px;
+cursor: pointer;
+transition: all 0.2s;
+&:hover{
+  background-color: $secondary-color;
+}
+}
+input, textarea{
+ 
+  outline: none;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid $primary-color ;
+  
+}
+
