@@ -14,22 +14,25 @@ interface TaskItemProps {
 const TaskItem: FC<TaskItemProps> = ({ item, updateItem, toggleDone, removeItem, index }) => {
   const [title, setTitle] = useState(item.title);
   const [content, setContent] = useState(item.content);
-  const [endDate, setEndDate] = useState(item.date.toISOString().slice(0, 16));
+  const [endDate, setEndDate] = useState(item.date);
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     updateItem(item.id, e.target.value, content, new Date(endDate));
-  };
+  }, [item.id, content, endDate, updateItem]);
 
-  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleContentChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
     updateItem(item.id, title, e.target.value, new Date(endDate));
-  };
+  }, [item.id, title, endDate, updateItem]);
 
-  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEndDate(e.target.value);
-    updateItem(item.id, title, content, new Date(e.target.value));
-  };
+  const handleDateChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const newDate = new Date(e.target.value);
+    const localDate = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000);
+    setEndDate(localDate);
+    updateItem(item.id, title, content, localDate);
+  }, [item.id, title, content, updateItem]);
+
 
   const handleBlur = () => {
     if (!item.title) {
@@ -51,35 +54,41 @@ const TaskItem: FC<TaskItemProps> = ({ item, updateItem, toggleDone, removeItem,
     if (element) element.focus();
   }, []);
   return (
-    <div className="item__wr">
+    <div className="item__wr" >
 
 
       <form className="form" >
         <div className='form__head'>
           <div className="form__head-content">
-            <h5>{index}</h5>
+            <h3>{index})</h3>
 
             <input
               className="input__title"
               placeholder="заголовок"
               value={item.title}
               onChange={handleTitleChange}
-
+              onBlur={handleBlur}
+              ref={setFocus}
               required />
             <input
               className="input__date"
               type="datetime-local"
               placeholder="Время окончания"
-              value={item.date.toDateString()}
+              value={
+                item.date instanceof Date
+                  ? item.date.toISOString().slice(0, 16)
+                  : new Date().toISOString().slice(0, 16)
+              }
               onChange={handleDateChange}
               required />
           </div>
 
           <div className='form__actions'>
             <input
-              /*  className={styles.CardCheckbox} */
+              className='input__checkbox'
               type="checkbox"
               checked={item.done}
+
               onChange={() => toggleDone(item.id)}
             />
             <div
@@ -95,9 +104,10 @@ const TaskItem: FC<TaskItemProps> = ({ item, updateItem, toggleDone, removeItem,
         </div>
         <textarea
           placeholder="содержание"
+          onBlur={handleBlur}
           value={item.content}
           onChange={handleContentChange}
-          required />
+        />
       </form>
     </div>
   )

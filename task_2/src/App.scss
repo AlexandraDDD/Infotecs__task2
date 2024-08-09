@@ -1,8 +1,10 @@
 @import './styles/variables';
-
+html, body{
+  background-color: $bg-color;
+}
 .App {
   text-align: center;
-  color: rgb(59, 44, 44);
+  color: rgb(255, 255, 255);
 }
 
 .container{
@@ -20,13 +22,16 @@ transition: all 0.2s;
 &:hover{
   background-color: $secondary-color;
 }
+
 }
 input, textarea{
- 
+  background-color: transparent;
+ border: none;
+  font: sans-serif;
+  font-size: 1em;
   outline: none;
   padding: 5px;
-  border-radius: 5px;
-  border: 1px solid $primary-color ;
+  border-bottom: 1px solid $bg-color ;
   
 }
 

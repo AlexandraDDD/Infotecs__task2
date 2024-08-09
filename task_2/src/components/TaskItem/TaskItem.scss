@@ -1,59 +1,97 @@
-@import '../../styles/variables' ;
+@import '../../styles/variables';
 
-.item{
-    &__wr{
+.item {
+    &__wr {
+        color: $bg-color;
         align-content: start;
         border-radius: 10px;
         padding: 18px 10%;
         background-color: $primary-color;
-        margin-bottom: 20px;
+        margin-top: 20px;
 
     }
-    &__head{
+
+    &__head {
         display: flex;
         justify-content: left;
         align-items: center;
     }
-   
+
 }
-p{
+
+p {
     text-align: left;
     padding: 0;
     margin: 0;
 }
-h3{
+
+h3 {
     padding: 0;
     margin: 0;
-    margin-bottom: 10px;
+    margin-right: 10px;
+
 }
-h5{
-    margin: 0;
-}
-.form{
-    &__head{
+
+
+
+.form {
+    &__head {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
     }
-    &__head-content{
+
+    &__head-content {
         display: flex;
         justify-content: space-between;
         width: 50%;
         height: 30px;
         align-items: center;
     }
+
     margin-bottom: 15px;
+
+    &__actions {
+        display: flex;
+        width: 8%;
+        justify-content: space-between;
+
+        .input__checkbox {
+            width: 30px;
+            height: 30px;
+        }
+
+        .remove {
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+    }
 }
-textarea{
+
+textarea {
+    font-size: 16px;
     width: 100%;
     resize: vertical;
     box-sizing: border-box;
 }
-.remove{
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+.input__date,
+.input__date::-webkit-calendar-picker-indicator {
+    height: 20px;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    ;
+}
+
+.input__title {
+    font-size: 1.2em;
+    font-weight: bold;
+    height: 20px;
+    margin-right: 10px;
 }

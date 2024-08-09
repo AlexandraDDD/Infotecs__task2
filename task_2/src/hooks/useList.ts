@@ -7,7 +7,7 @@ const useList = () => {
 
   const addItem = () => {
     const newItem: Item = { id: Date.now(), title: '', content: '', date: new Date(Date.now()), done: false };
-    setItems([...items, newItem]);
+     setItems([newItem, ...items]);
   };
 
   const updateItem = (id: number, title: string, content: string, date: Date) => {
