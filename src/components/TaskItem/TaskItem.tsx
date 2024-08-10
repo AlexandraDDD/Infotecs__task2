@@ -55,13 +55,11 @@ const TaskItem: FC<TaskItemProps> = ({ item, updateItem, toggleDone, removeItem,
   }, []);
   return (
     <div className="item__wr" >
-
-
       <form className="form" >
         <div className='form__head'>
+   
           <div className="form__head-content">
-            <h3>{index})</h3>
-
+          <h3>{index})</h3>
             <input
               className="input__title"
               placeholder="заголовок"

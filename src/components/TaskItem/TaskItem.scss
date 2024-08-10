@@ -29,13 +29,14 @@ h3 {
     padding: 0;
     margin: 0;
     margin-right: 10px;
-
+  
 }
 
 
 
 .form {
     &__head {
+        align-items: stretch;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -83,15 +84,59 @@ textarea {
 
 .input__date,
 .input__date::-webkit-calendar-picker-indicator {
+    
     height: 20px;
     font-size: 1em;
     font-family: Arial, sans-serif;
-    ;
+   
 }
-
+.input__date{
+    min-width: 200px;
+}
 .input__title {
     font-size: 1.2em;
     font-weight: bold;
     height: 20px;
     margin-right: 10px;
 }
+
+/* Для экранов меньше 1000px */
+@media (max-width: 999px) {
+    .form{
+        &__head {
+            height: 100%;
+            margin-bottom: 10px;
+        }
+    }
+    .container {
+      padding: 0 5%;
+    }
+  
+    .form__head-content {
+        height: 100%;
+        flex-direction: column;
+      width:50%;
+      align-items: flex-start;
+    
+    }
+  
+    .form__actions {
+      width: 10%;
+    }
+  
+    .input__title, .input__date{
+        margin: 0;
+        margin-bottom: 10px;
+        width: 200px;
+    }
+
+  }
+  
+  /* Для экранов меньше 600px */
+  @media (max-width: 599px) {
+    .form__actions {
+      width: 20%;
+    }
+
+  }
+  
